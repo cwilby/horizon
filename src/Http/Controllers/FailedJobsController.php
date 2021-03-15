@@ -2,6 +2,7 @@
 
 namespace Laravel\Horizon\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Laravel\Horizon\Contracts\JobRepository;
 use Laravel\Horizon\Contracts\TagRepository;
@@ -53,10 +54,10 @@ class FailedJobsController extends Controller
                 ? $this->tags->count('failed:'.$request->query('tag'))
                 : $this->jobs->countFailed();
 
-        return [
+        return new JsonResponse([
             'jobs' => $jobs,
             'total' => $total,
-        ];
+        ], 200, [], JSON_INVALID_UTF8_SUBSTITUTE);
     }
 
     /**
